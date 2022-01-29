@@ -1,10 +1,25 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Список книг";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Автор</th>
+            <th>Название</th>
+            <th>Год издания</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Book book in Model.Books)
+        {
+            <tr>
+                <td>@book.Author.Name</td>
+                <td>@book.Title</td>
+                <td>@book.PublishedAt.Year.ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using S2S.Models;
+using S2S.Repository;
+using S2S.Repository.EFCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +13,18 @@ namespace S2S.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly IRepository _repository;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IEnumerable<Book> Books { get; set; }
+
+        public IndexModel(IRepository repository)
         {
-            _logger = logger;
+            _repository = repository;
         }
 
         public void OnGet()
         {
-
+            Books = _repository.Books;
         }
     }
 }
