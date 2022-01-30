@@ -1,0 +1,8 @@
+﻿@page "{bookId:int}"
+@model S2S.Pages.DetailModel
+@{
+    ViewData["Title"] = "Список книг";
+}
+
+<h2>@Model.Book.Title</h2>
+<a href="../Index" class="button button-primary">Назад к списку</a>

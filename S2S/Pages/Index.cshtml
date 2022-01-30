@@ -5,20 +5,31 @@
 }
 
 <table class="table table-striped">
+    @*нажатие на заголовок отсортирует книги*@
     <thead>
         <tr>
-            <th>Автор</th>
-            <th>Название</th>
-            <th>Год издания</th>
+            <th>
+                <a asp-page="./Index" asp-route-column="Name">Автор</a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-column="Title">Название</a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-column="PublishedAt">Год издания</a>
+            </th>
         </tr>
     </thead>
+
     <tbody>
-        @foreach(Book book in Model.Books)
+        @foreach(var book in @Model.Books)
         {
             <tr>
                 <td>@book.Author.Name</td>
-                <td>@book.Title</td>
+                <td><a asp-page="./Detail" asp-route-bookId="@book.BookId">@book.Title</a></td>
                 <td>@book.PublishedAt.Year.ToString()</td>
+                <form method="post">
+                    <td><button type="submit" class="btn btn-primary" asp-page-handler="Buy" asp-route-bookId="@book.BookId">Купить</button></td> 
+                </form>
             </tr>
         }
     </tbody>

@@ -1,4 +1,5 @@
-﻿using S2S.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using S2S.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,21 @@ namespace S2S.Repository.EFCore
             _context = context;
         }
 
-        public IEnumerable<Book> Books => _context.Books;
-
+        public IQueryable<Book> Books => _context.Books.Include(b => b.Author);
+        
         public Book Detail(int id)
         {
-            return Books.FirstOrDefault(book => book.BookId == id);
+            return _context.Books.FirstOrDefault(i => i.BookId == id);
+        }
+
+        public async Task Buy(int id)
+        {
+            Book book = await _context.Books.FindAsync(id);
+            if (book != null)
+            {
+                _context.Books.Remove(book);
+                _context.SaveChanges();
+            }
         }
     }
 }

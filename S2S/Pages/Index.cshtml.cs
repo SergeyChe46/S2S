@@ -21,10 +21,30 @@ namespace S2S.Pages
         {
             _repository = repository;
         }
-
-        public void OnGet()
+        // сортировка на стороне сервера. По хорошему - надо на стороне клиента
+        public void OnGet(string? column)
         {
-            Books = _repository.Books;
+            switch (column)
+            {
+                case "Name":
+                    Books = _repository.Books.OrderBy(i => i.Author.Name);
+                    break;
+                case "Title":
+                    Books = _repository.Books.OrderBy(i => i.Title);
+                    break;
+                case "Year":
+                    Books = _repository.Books.OrderBy(i => i.PublishedAt.Year);
+                    break;
+                default:
+                    Books = _repository.Books;
+                    break;
+            }
+        }
+        // удаление 
+        public async Task<IActionResult> OnPostBuyAsync(int bookId)
+        {
+            await _repository.Buy(bookId);
+            return RedirectToPage("./Index");
         }
     }
 }
